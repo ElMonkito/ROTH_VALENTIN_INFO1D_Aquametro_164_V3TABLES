@@ -312,7 +312,7 @@ INSERT INTO `t_mise_en_service` (`id_mise_en_service`, `date_mise_en_service`) V
 --
 
 CREATE TABLE `t_personnes` (
-  `id_personnes` int(11) NOT NULL,
+  `id_personnes` int(11),
   `nom` varchar(32) DEFAULT NULL,
   `prenom` varchar(32) DEFAULT NULL,
   `fonction` varchar(32) DEFAULT NULL
@@ -323,11 +323,11 @@ CREATE TABLE `t_personnes` (
 --
 
 INSERT INTO `t_personnes` (`id_personnes`, `nom`, `prenom`, `fonction`) VALUES
-(1, 'Derbigny', 'Maxime', 'Client'),
-(2, 'Blanc', 'John', 'Client'),
-(3, 'Berger', 'Jean', 'Client'),
-(4, 'Dupont', 'Remy', 'Directeur'),
-(5, 'Roth', 'Valentin', 'Vendeur');
+(0, 'Derbigny', 'Maxime', 'Client'),
+(1, 'Blanc', 'John', 'Client'),
+(2, 'Berger', 'Jean', 'Client'),
+(3, 'Dupont', 'Remy', 'Directeur'),
+(4, 'Roth', 'Valentin', 'Vendeur');
 
 -- --------------------------------------------------------
 

@@ -221,7 +221,7 @@ def update_genre_film_selected():
 
             # SQL pour insérer une nouvelle association entre
             # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_genre_film"
-            strsql_insert_genre_film = """INSERT INTO t_genre_film (id_genre_film, fk_genre, fk_film)
+            strsql_insert_personnes_film = """INSERT INTO t_genre_film (id_genre_film, fk_genre, fk_film)
                                                     VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
 
             # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_genre_film"
@@ -236,7 +236,7 @@ def update_genre_film_selected():
                     valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
                                                                "value_fk_genre": id_genre_ins}
 
-                    mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_insert_personnes_film, valeurs_film_sel_genre_sel_dictionnaire)
 
                 # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
