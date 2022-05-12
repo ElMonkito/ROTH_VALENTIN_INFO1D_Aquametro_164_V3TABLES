@@ -32,8 +32,8 @@ def films_personnes_afficher(id_film_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_personnes_avoir_compteur_afficher_data = """SELECT id_compteur, type, DN,
-                                                            GROUP_CONCAT(type) as GenresFilms FROM t_personnes_avoir_compteur
+                strsql_personnes_avoir_compteur_afficher_data = """SELECT id_compteur, type, DN, 
+                                                            GROUP_CONCAT(nom) as GenresFilms FROM t_personnes_avoir_compteur
                                                             RIGHT JOIN t_compteur ON t_compteur.id_compteur = t_personnes_avoir_compteur.fk_compteur
                                                             LEFT JOIN t_personnes ON t_personnes.id_personnes = t_personnes_avoir_compteur.fk_personnes
                                                             GROUP BY id_compteur"""

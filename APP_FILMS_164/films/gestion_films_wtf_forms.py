@@ -35,20 +35,20 @@ class FormWTFUpdateFilm(FlaskForm):
     """
 
     nom_film_update_wtf = StringField("Clavioter le titre", widget=TextArea())
-    duree_film_update_wtf = IntegerField("Durée du film (minutes)", validators=[NumberRange(min=1, max=5000,
-                                                                                            message=u"Min %(min)d et "
-                                                                                                    u"max %(max)d "
-                                                                                                    u"Selon Wikipédia "
-                                                                                                    u"L'Incendie du "
-                                                                                                    u"monastère du "
-                                                                                                    u"Lotus rouge "
-                                                                                                    u"durée 1620 "
-                                                                                                    u"min")])
+    # duree_film_update_wtf = IntegerField("Durée du film (minutes)", validators=[NumberRange(min=1, max=5000,
+                                                                                            #message=u"Min %(min)d et "
+                                                                                                    #u"max %(max)d "
+                                                                                                    #u"Selon Wikipédia "
+                                                                                                    #u"L'Incendie du "
+                                                                                                    #u"monastère du "
+                                                                                                    #u"Lotus rouge "
+                                                                                                    #u"durée 1620 "
+                                                                                                    #u"min")])
 
-    description_film_update_wtf = StringField("Description du film ", widget=TextArea())
-    cover_link_film_update_wtf = StringField("Lien de l'affiche du film ", widget=TextArea())
-    datesortie_film_update_wtf = DateField("Date de sortie du film", validators=[InputRequired("Date obligatoire"),
-                                                                                 DataRequired("Date non valide")])
+    # description_film_update_wtf = StringField("Description du film ", widget=TextArea())
+    # cover_link_film_update_wtf = StringField("Lien de l'affiche du film ", widget=TextArea())
+    # datesortie_film_update_wtf = DateField("Date de sortie du film", validators=[InputRequired("Date obligatoire"),
+                                                                                 #DataRequired("Date non valide")])
     submit = SubmitField("Update film")
 
 

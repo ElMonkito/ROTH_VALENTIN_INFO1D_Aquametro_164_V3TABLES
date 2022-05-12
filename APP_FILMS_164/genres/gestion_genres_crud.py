@@ -182,7 +182,7 @@ def personnes_update():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_personne = """UPDATE t_personnes SET nom = %(value_name_genre)s,%(prenom_personnes_update)s,%(fonction_personnes_update)s \
+            str_sql_update_nom_personne = """UPDATE t_personnes SET nom = %(value_name_genre)s, prenom = %(value_prenom_personnes)s, fonction = %(value_fonction_personnes)s \
              WHERE id_personnes = %(value_id_genre)s """
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_personne, valeur_update_dictionnaire)

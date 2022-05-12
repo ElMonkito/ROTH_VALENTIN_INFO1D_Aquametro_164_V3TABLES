@@ -86,22 +86,21 @@ def film_update_wtf():
         if form_update_film.validate_on_submit():
             # Récupèrer la valeur du champ depuis "personnes_update.html" après avoir cliqué sur "SUBMIT".
             nom_film_update = form_update_film.nom_film_update_wtf.data
-            duree_film_update = form_update_film.duree_film_update_wtf.data
-            description_film_update = form_update_film.description_film_update_wtf.data
-            cover_link_film_update = form_update_film.cover_link_film_update_wtf.data
-            datesortie_film_update = form_update_film.datesortie_film_update_wtf.data
+            # duree_film_update = form_update_film.duree_film_update_wtf.data
+            # description_film_update = form_update_film.description_film_update_wtf.data
+            # cover_link_film_update = form_update_film.cover_link_film_update_wtf.data
+            # datesortie_film_update = form_update_film.datesortie_film_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_film": id_film_update,
-                                          "value_nom_film": nom_film_update,
-                                          "value_duree_film": duree_film_update,
-                                          "value_description_film": description_film_update,
-                                          "value_cover_link_film": cover_link_film_update,
-                                          "value_datesortie_film": datesortie_film_update
+                                          "value_nom_film": nom_film_update
+                                          # "value_duree_film": duree_film_update,
+                                          # "value_description_film": description_film_update,
+                                          # "value_cover_link_film": cover_link_film_update,
+                                          # "value_datesortie_film": datesortie_film_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_type_compteur = """UPDATE t_film SET type = %(value_nom_film)s,
-                                                            DN = %(value_duree_film)s,
+            str_sql_update_type_compteur = """UPDATE t_compteur SET type = %(value_nom_film)s,
                                                             WHERE id_compteur = %(value_id_film)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_type_compteur, valeur_update_dictionnaire)
