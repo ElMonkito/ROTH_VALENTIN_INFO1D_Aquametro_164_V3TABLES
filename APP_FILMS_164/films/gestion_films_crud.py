@@ -40,25 +40,25 @@ def film_add_wtf():
                 valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_compteurs = """INSERT INTO t_compteurs (id_,nom_film) VALUES (NULL,%(value_nom_film)s) """
+                strsql_insert_compteur = """INSERT INTO t_compteur (id_compteur,type) VALUES (NULL,%(value_nom_film)s) """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_compteurs, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_compteur, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
 
                 # Pour afficher et constater l'insertion du nouveau film (id_film_sel=0 => afficher tous les films)
-                return redirect(url_for('films_genres_afficher', id_film_sel=0))
+                return redirect(url_for('films_personnes_afficher', id_film_sel=0))
 
-        except Exception as Exception_genres_ajouter_wtf:
+        except Exception as Exception_personnes_ajouter:
             raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{film_add_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+                                            f"{Exception_personnes_ajouter}")
 
     return render_template("films/film_add_wtf.html", form_add_film=form_add_film)
 
 
-"""Editer(update) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
+"""Editer(update) un film qui a été sélectionné dans le formulaire "films_personnes_afficher.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /film_update
 
@@ -66,7 +66,7 @@ Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "E
 
 Paramètres : sans
 
-But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
+But : Editer(update) un genre qui a été sélectionné dans le formulaire "personnes_afficher.html"
 
 Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
@@ -84,7 +84,7 @@ def film_update_wtf():
     try:
         print(" on submit ", form_update_film.validate_on_submit())
         if form_update_film.validate_on_submit():
-            # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            # Récupèrer la valeur du champ depuis "personnes_update.html" après avoir cliqué sur "SUBMIT".
             nom_film_update = form_update_film.nom_film_update_wtf.data
             duree_film_update = form_update_film.duree_film_update_wtf.data
             description_film_update = form_update_film.description_film_update_wtf.data
@@ -100,27 +100,24 @@ def film_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_film SET nom_film = %(value_nom_film)s,
-                                                            duree_film = %(value_duree_film)s,
-                                                            description_film = %(value_description_film)s,
-                                                            cover_link_film = %(value_cover_link_film)s,
-                                                            date_sortie_film = %(value_datesortie_film)s
-                                                            WHERE id_film = %(value_id_film)s"""
+            str_sql_update_type_compteur = """UPDATE t_film SET type = %(value_nom_film)s,
+                                                            DN = %(value_duree_film)s,
+                                                            WHERE id_compteur = %(value_id_film)s"""
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_type_compteur, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Afficher seulement le film modifié, "ASC" et l'"id_film_update"
-            return redirect(url_for('films_genres_afficher', id_film_sel=id_film_update))
+            return redirect(url_for('films_personnes_afficher', id_film_sel=id_film_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_film" et "intitule_genre" de la "t_genre"
-            str_sql_id_film = "SELECT * FROM t_film WHERE id_film = %(value_id_film)s"
+            str_sql_id_compteur = "SELECT * FROM t_compteur WHERE id_compteur = %(value_id_film)s"
             valeur_select_dictionnaire = {"value_id_film": id_film_update}
             with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_film, valeur_select_dictionnaire)
+                mybd_conn.execute(str_sql_id_compteur, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_film = mybd_conn.fetchone()
             print("data_film ", data_film, " type ", type(data_film), " genre ",
@@ -143,7 +140,7 @@ def film_update_wtf():
     return render_template("films/film_update_wtf.html", form_update_film=form_update_film)
 
 
-"""Effacer(delete) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
+"""Effacer(delete) un film qui a été sélectionné dans le formulaire "films_personnes_afficher.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /film_delete
     
@@ -169,7 +166,7 @@ def film_delete_wtf():
     try:
         # Si on clique sur "ANNULER", afficher tous les films.
         if form_delete_film.submit_btn_annuler.data:
-            return redirect(url_for("films_genres_afficher", id_film_sel=0))
+            return redirect(url_for("films_personnes_afficher", id_film_sel=0))
 
         if form_delete_film.submit_btn_conf_del_film.data:
             # Récupère les données afin d'afficher à nouveau
@@ -187,28 +184,28 @@ def film_delete_wtf():
             valeur_delete_dictionnaire = {"value_id_film": id_film_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_genre_film WHERE fk_film = %(value_id_film)s"""
-            str_sql_delete_film = """DELETE FROM t_film WHERE id_film = %(value_id_film)s"""
+            str_sql_delete_fk_compteur_personnes = """DELETE FROM t_personnes_avoir_compteur WHERE fk_compteur = %(value_id_film)s"""
+            str_sql_delete_film = """DELETE FROM t_compteur WHERE id_compteur = %(value_id_film)s"""
             # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
             # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_delete_fk_film_genre, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_compteur_personnes, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_film, valeur_delete_dictionnaire)
 
             flash(f"Film définitivement effacé !!", "success")
             print(f"Film définitivement effacé !!")
 
             # afficher les données
-            return redirect(url_for('films_genres_afficher', id_film_sel=0))
+            return redirect(url_for('films_personnes_afficher', id_film_sel=0))
         if request.method == "GET":
             valeur_select_dictionnaire = {"value_id_film": id_film_delete}
             print(id_film_delete, type(id_film_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_genres_films_delete = """SELECT * FROM t_film WHERE id_film = %(value_id_film)s"""
+            str_sql_personnes_compteur_delete = """SELECT * FROM t_compteur WHERE id_compteur = %(value_id_film)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_personnes_compteur_delete, valeur_select_dictionnaire)
                 data_film_delete = mydb_conn.fetchall()
                 print("data_film_delete...", data_film_delete)
 

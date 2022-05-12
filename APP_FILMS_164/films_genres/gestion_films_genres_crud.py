@@ -14,9 +14,9 @@ from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
 
 """
-    Nom : films_genres_afficher
+    Nom : films_personnes_afficher
     Auteur : OM 2021.05.01
-    Définition d'une "route" /films_genres_afficher
+    Définition d'une "route" /films_personnes_afficher
     
     But : Afficher les films avec les genres associés pour chaque film.
     
@@ -26,29 +26,29 @@ from APP_FILMS_164.erreurs.exceptions import *
 """
 
 
-@app.route("/films_genres_afficher/<int:id_film_sel>", methods=['GET', 'POST'])
-def films_genres_afficher(id_film_sel):
-    print(" films_genres_afficher id_film_sel ", id_film_sel)
+@app.route("/films_personnes_afficher/<int:id_film_sel>", methods=['GET', 'POST'])
+def films_personnes_afficher(id_film_sel):
+    print(" films_personnes_afficher id_film_sel ", id_film_sel)
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_films_afficher_data = """SELECT id_film, nom_film, duree_film, description_film, cover_link_film, date_sortie_film,
-                                                            GROUP_CONCAT(intitule_genre) as GenresFilms FROM t_genre_film
-                                                            RIGHT JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                                            LEFT JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                                            GROUP BY id_film"""
+                strsql_personnes_avoir_compteur_afficher_data = """SELECT id_compteur, type, DN,
+                                                            GROUP_CONCAT(type) as GenresFilms FROM t_personnes_avoir_compteur
+                                                            RIGHT JOIN t_compteur ON t_compteur.id_compteur = t_personnes_avoir_compteur.fk_compteur
+                                                            LEFT JOIN t_personnes ON t_personnes.id_personnes = t_personnes_avoir_compteur.fk_personnes
+                                                            GROUP BY id_compteur"""
                 if id_film_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film
-                    mc_afficher.execute(strsql_genres_films_afficher_data)
+                    mc_afficher.execute(strsql_personnes_avoir_compteur_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
                     valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
-                    strsql_genres_films_afficher_data += """ HAVING id_film= %(value_id_film_selected)s"""
+                    strsql_personnes_avoir_compteur_afficher_data += """ HAVING id_film= %(value_id_film_selected)s"""
 
-                    mc_afficher.execute(strsql_genres_films_afficher_data, valeur_id_film_selected_dictionnaire)
+                    mc_afficher.execute(strsql_personnes_avoir_compteur_afficher_data, valeur_id_film_selected_dictionnaire)
 
                 # Récupère les données de la requête.
                 data_genres_films_afficher = mc_afficher.fetchall()
@@ -63,20 +63,20 @@ def films_genres_afficher(id_film_sel):
                 else:
                     flash(f"Données films et genres affichés !!", "success")
 
-        except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_genres_afficher.__name__} ;"
-                                               f"{Exception_films_genres_afficher}")
+        except Exception as Exception_films_personnes_afficher:
+            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_personnes_afficher.__name__} ;"
+                                               f"{Exception_films_personnes_afficher}")
 
-    print("films_genres_afficher  ", data_genres_films_afficher)
+    print("films_personnes_afficher  ", data_genres_films_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("films_genres/films_genres_afficher.html", data=data_genres_films_afficher)
+    return render_template("films_genres/films_personnes_afficher.html", data=data_genres_films_afficher)
 
 
 """
     nom: edit_genre_film_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_personnes_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_genre".
@@ -93,14 +93,14 @@ def edit_genre_film_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_genre, intitule_genre FROM t_genre ORDER BY id_genre ASC"""
-                mc_afficher.execute(strsql_genres_afficher)
+                strsql_personnes_afficher = """SELECT id_personnes, nom FROM t_personnes ORDER BY id_personnes ASC"""
+                mc_afficher.execute(strsql_personnes_afficher)
             data_genres_all = mc_afficher.fetchall()
             print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
 
-            # Récupère la valeur de "id_film" du formulaire html "films_genres_afficher.html"
+            # Récupère la valeur de "id_film" du formulaire html "films_personnes_afficher.html"
             # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_film"
-            # grâce à la variable "id_film_genres_edit_html" dans le fichier "films_genres_afficher.html"
+            # grâce à la variable "id_film_genres_edit_html" dans le fichier "films_personnes_afficher.html"
             # href="{{ url_for('edit_genre_film_selected', id_film_genres_edit_html=row.id_film) }}"
             id_film_genres_edit = request.values['id_film_genres_edit_html']
 
@@ -121,20 +121,20 @@ def edit_genre_film_selected():
                 genres_films_afficher_data(valeur_id_film_selected_dictionnaire)
 
             print(data_genre_film_selected)
-            lst_data_film_selected = [item['id_film'] for item in data_genre_film_selected]
+            lst_data_film_selected = [item['id_compteur'] for item in data_genre_film_selected]
             print("lst_data_film_selected  ", lst_data_film_selected,
                   type(lst_data_film_selected))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les genres qui ne sont pas encore sélectionnés.
-            lst_data_genres_films_non_attribues = [item['id_genre'] for item in data_genres_films_non_attribues]
+            lst_data_genres_films_non_attribues = [item['id_personnes'] for item in data_genres_films_non_attribues]
             session['session_lst_data_genres_films_non_attribues'] = lst_data_genres_films_non_attribues
             print("lst_data_genres_films_non_attribues  ", lst_data_genres_films_non_attribues,
                   type(lst_data_genres_films_non_attribues))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les genres qui sont déjà sélectionnés.
-            lst_data_genres_films_old_attribues = [item['id_genre'] for item in data_genres_films_attribues]
+            lst_data_genres_films_old_attribues = [item['id_personnes'] for item in data_genres_films_attribues]
             session['session_lst_data_genres_films_old_attribues'] = lst_data_genres_films_old_attribues
             print("lst_data_genres_films_old_attribues  ", lst_data_genres_films_old_attribues,
                   type(lst_data_genres_films_old_attribues))
@@ -166,7 +166,7 @@ def edit_genre_film_selected():
 """
     nom: update_genre_film_selected
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_personnes_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_genre".
@@ -259,13 +259,13 @@ def update_genre_film_selected():
 
     # Après cette mise à jour de la table intermédiaire "t_genre_film",
     # on affiche les films et le(urs) genre(s) associé(s).
-    return redirect(url_for('films_genres_afficher', id_film_sel=id_film_selected))
+    return redirect(url_for('films_personnes_afficher', id_film_sel=id_film_selected))
 
 
 """
     nom: genres_films_afficher_data
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_personnes_afficher.html"
     Nécessaire pour afficher tous les "TAGS" des genres, ainsi l'utilisateur voit les genres à disposition
 
     On signale les erreurs importantes

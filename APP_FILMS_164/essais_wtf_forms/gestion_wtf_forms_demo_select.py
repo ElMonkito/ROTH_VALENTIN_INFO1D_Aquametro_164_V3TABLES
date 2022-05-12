@@ -24,9 +24,9 @@ from APP_FILMS_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectW
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
+    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "personnes_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_delete_wtf" du formulaire "genres/genre_delete_wtf.html",
+    Remarque :  Dans le champ "nom_personnes_delete" du formulaire "genres/personnes_delete.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
@@ -47,8 +47,8 @@ def demo_select_wtf():
 
         if request.method == "GET":
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_genre, intitule_genre FROM t_genre ORDER BY id_genre ASC"""
-                mc_afficher.execute(strsql_genres_afficher)
+                strsql_personnes_afficher = """SELECT id_genre, intitule_genre FROM t_genre ORDER BY id_genre ASC"""
+                mc_afficher.execute(strsql_personnes_afficher)
 
             data_genres = mc_afficher.fetchall()
             print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))

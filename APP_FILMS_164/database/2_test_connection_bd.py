@@ -9,10 +9,10 @@ try:
     """
         Une seule requête pour montrer la récupération des données de la BD en MySql.
     """
-    strsql_genres_afficher = """SELECT nom, prenom FROM t_personnes ORDER BY nom ASC"""
+    strsql_personnes_afficher = """SELECT nom, prenom FROM t_personnes ORDER BY nom ASC"""
 
     with DBconnection() as db:
-        db.execute(strsql_genres_afficher)
+        db.execute(strsql_personnes_afficher)
         result = db.fetchall()
         print("data_genres ", result, " Type : ", type(result))
 
