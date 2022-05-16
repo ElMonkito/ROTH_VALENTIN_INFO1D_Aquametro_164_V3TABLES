@@ -29,37 +29,37 @@ from APP_FILMS_164.mails.gestion_mails_wtf_forms import FormWTFAjouterMails
 """
 
 
-@app.route("/mails_afficher/<string:order_by>/<int:id_mails_sel>", methods=['GET', 'POST'])
-def mails_afficher(order_by, id_mails_sel):
+@app.route("/telephones_afficher/<string:order_by>/<int:id_telephones_sel>", methods=['GET', 'POST'])
+def telephones_afficher(order_by, id_telephones_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                if order_by == "ASC" and id_mails_sel == 0:
-                    strsql_mails_afficher = """SELECT id_mails, nom_mail FROM t_mails ORDER BY id_mails ASC"""
-                    mc_afficher.execute(strsql_mails_afficher)
+                if order_by == "ASC" and id_telephones_sel == 0:
+                    strsql_telephones_afficher = """SELECT id_telephones, numero_telephone FROM t_telephones ORDER BY id_telephones ASC"""
+                    mc_afficher.execute(strsql_telephones_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
                     # la commande MySql classique est "SELECT * FROM t_genre"
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
-                    valeur_id_mails_selected_dictionnaire = {"value_id_mails_selected": id_mails_sel}
-                    strsql_mails_afficher = """SELECT id_mails, nom_mail FROM t_mails WHERE id_mails = %(value_id_mails_selected)s"""
+                    valeur_id_telephones_selected_dictionnaire = {"value_id_telephones_selected": id_telephones_sel}
+                    strsql_telephones_afficher = """SELECT id_telephones, numero_telephone FROM t_telephones WHERE id_telephones = %(value_id_telephones_selected)s"""
 
-                    mc_afficher.execute(strsql_mails_afficher, valeur_id_mails_selected_dictionnaire)
+                    mc_afficher.execute(strsql_telephones_afficher, valeur_id_telephones_selected_dictionnaire)
                 else:
-                    strsql_mails_afficher = """SELECT id_mails, nom_mail FROM t_mails ORDER BY id_mails DESC"""
+                    strsql_telephones_afficher = """SELECT id_mails, nom_mail FROM t_mails ORDER BY id_mails DESC"""
 
-                    mc_afficher.execute(strsql_mails_afficher)
+                    mc_afficher.execute(strsql_telephones_afficher)
 
                 data_mails = mc_afficher.fetchall()
 
-                print("data_mails ", data_mails, " Type : ", type(data_mails))
+                print("data_telephones ", data_telephones, " Type : ", type(data_telephones))
 
                 # Différencier les messages si la table est vide.
-                if not data_mails and id_mails_sel == 0:
+                if not data_telephones and id_telephones_sel == 0:
                     flash("""La table "t_genre" est vide. !!""", "warning")
-                elif not data_mails and id_mails_sel > 0:
+                elif not data_telephones and id_telephones_sel > 0:
                     # Si l'utilisateur change l'id_genre dans l'URL et que le genre n'existe pas,
                     flash(f"Le genre demandé n'existe pas !!", "warning")
                 else:
@@ -67,10 +67,10 @@ def mails_afficher(order_by, id_mails_sel):
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Données personnes affichés!!", "success")
 
-        except Exception as Exception_mails_afficher:
+        except Exception as Exception_telephones_afficher:
             raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{mails_afficher.__name__} ; "
-                                          f"{Exception_mails_afficher}")
+                                          f"{telephones_afficher.__name__} ; "
+                                          f"{Exception_telephones_afficher}")
 
     # Envoie la page "HTML" au serveur.
     return render_template("mails/mails_afficher.html", data=data_mails)
