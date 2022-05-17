@@ -221,11 +221,11 @@ def update_genre_film_selected():
 
             # SQL pour insérer une nouvelle association entre
             # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_genre_film"
-            strsql_insert_personnes_film = """INSERT INTO t_genre_film (id_genre_film, fk_genre, fk_film)
+            strsql_insert_personnes_avoir_compteur = """INSERT INTO t_personnes_avoir_compteur (id_personnes_avoir_compteur, fk_personnes, fk_compteur)
                                                     VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
 
             # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_genre_film"
-            strsql_delete_genre_film = """DELETE FROM t_genre_film WHERE fk_genre = %(value_fk_genre)s AND fk_film = %(value_fk_film)s"""
+            strsql_delete_personnes_avoir_film = """DELETE FROM t_personnes_avoir_compteur WHERE fk_personnes = %(value_fk_genre)s AND fk_compteur = %(value_fk_film)s"""
 
             with DBconnection() as mconn_bd:
                 # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_genre_film".
@@ -236,7 +236,7 @@ def update_genre_film_selected():
                     valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
                                                                "value_fk_genre": id_genre_ins}
 
-                    mconn_bd.execute(strsql_insert_personnes_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_insert_personnes_avoir_compteur, valeurs_film_sel_genre_sel_dictionnaire)
 
                 # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
@@ -250,7 +250,7 @@ def update_genre_film_selected():
                     # la subtilité consiste à avoir une méthode "execute" dans la classe "DBconnection"
                     # ainsi quand elle aura terminé l'insertion des données le destructeur de la classe "DBconnection"
                     # sera interprété, ainsi on fera automatiquement un commit
-                    mconn_bd.execute(strsql_delete_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_delete_personnes_avoir_film, valeurs_film_sel_genre_sel_dictionnaire)
 
         except Exception as Exception_update_genre_film_selected:
             raise ExceptionUpdateGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
@@ -276,20 +276,20 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_film, nom_film, duree_film, description_film, cover_link_film, date_sortie_film, GROUP_CONCAT(id_genre) as GenresFilms FROM t_genre_film
-                                        INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                        INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                        WHERE id_film = %(value_id_film_selected)s"""
+        strsql_film_selected = """SELECT id_compteur, type, GROUP_CONCAT(id_personnes) as GenresFilms FROM t_personnes_avoir_compteur
+                                        INNER JOIN t_compteur ON t_compteur.id_compteur = t_personnes_avoir_compteur.fk_compteur
+                                        INNER JOIN t_personnes ON t_personnes.id_personnes = t_personnes_avoir_compteur.fk_personnes
+                                        WHERE id_compteur = %(value_id_film_selected)s"""
 
-        strsql_genres_films_non_attribues = """SELECT id_genre, intitule_genre FROM t_genre WHERE id_genre not in(SELECT id_genre as idGenresFilms FROM t_genre_film
-                                                    INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                                    INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                                    WHERE id_film = %(value_id_film_selected)s)"""
+        strsql_genres_films_non_attribues = """SELECT id_personnes, nom FROM t_personnes WHERE id_personnes not in(SELECT id_personnes as idGenresFilms FROM t_personnes_avoir_compteur
+                                                    INNER JOIN t_compteur ON t_compteur.id_compteur = t_personnes_avoir_compteur.fk_compteur
+                                                    INNER JOIN t_personnes ON t_personnes.id_personnes = t_personnes_avoir_compteur.fk_personnes
+                                                    WHERE id_compteur = %(value_id_film_selected)s)"""
 
-        strsql_genres_films_attribues = """SELECT id_film, id_genre, intitule_genre FROM t_genre_film
-                                            INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                            INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                            WHERE id_film = %(value_id_film_selected)s"""
+        strsql_genres_films_attribues = """SELECT id_compteur, id_personnes, nom FROM t_personnes_avoir_compteur
+                                            INNER JOIN t_compteur ON t_compteur.id_compteur = t_personnes_avoir_compteur.fk_compteur
+                                            INNER JOIN t_personnes ON t_personnes.id_personnes = t_personnes_avoir_compteur.fk_personnes
+                                            WHERE id_compteur = %(value_id_film_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:

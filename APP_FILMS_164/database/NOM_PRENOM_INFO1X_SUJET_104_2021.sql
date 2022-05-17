@@ -17,7 +17,7 @@ USE roth_valentin_info1d_aquametro_bd_164;
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 10 Mai 2022 à 19:32
+-- Généré le :  Lun 16 Mai 2022 à 17:44
 -- Version du serveur :  5.6.20-log
 -- Version de PHP :  5.4.31
 
@@ -465,9 +465,9 @@ INSERT INTO `t_personnes_avoir_telephones` (`id_personnes_avoir_telephones`, `fk
 --
 
 CREATE TABLE IF NOT EXISTS `t_telephones` (
-  `id_telephones` int(11) NOT NULL,
+`id_telephones` int(11) NOT NULL,
   `numero_telephone` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `t_telephones`
@@ -581,6 +581,12 @@ ALTER TABLE `t_personnes_avoir_central_lecture`
  ADD PRIMARY KEY (`id_personnes_avoir_central_lecture`), ADD KEY `fk_personnes` (`fk_personnes`), ADD KEY `fk_central_lecture` (`fk_central_lecture`);
 
 --
+-- Index pour la table `t_telephones`
+--
+ALTER TABLE `t_telephones`
+ ADD PRIMARY KEY (`id_telephones`);
+
+--
 -- AUTO_INCREMENT pour les tables exportées
 --
 
@@ -594,6 +600,11 @@ MODIFY `id_mails` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 ALTER TABLE `t_personnes`
 MODIFY `id_personnes` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT pour la table `t_telephones`
+--
+ALTER TABLE `t_telephones`
+MODIFY `id_telephones` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
