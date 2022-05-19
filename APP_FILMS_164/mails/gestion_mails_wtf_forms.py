@@ -15,7 +15,7 @@ class FormWTFAjouterMails(FlaskForm):
         Dans le formulaire "personnes_ajouter.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_mails_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    nom_mails_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*[@.'\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
     nom_mails_wtf = StringField("Entrer le mails ", validators=[Length(min=2, max=50, message="min 2 max 50"),
                                                                    Regexp(nom_mails_regexp,
                                                                           message="Pas de chiffres, de caractères "

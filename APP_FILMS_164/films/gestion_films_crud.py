@@ -120,16 +120,16 @@ def film_update_wtf():
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_film = mybd_conn.fetchone()
             print("data_film ", data_film, " type ", type(data_film), " genre ",
-                  data_film["nom_film"])
+                  data_film["DN"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "film_update_wtf.html"
-            form_update_film.nom_film_update_wtf.data = data_film["nom_film"]
-            form_update_film.duree_film_update_wtf.data = data_film["duree_film"]
+            form_update_film.nom_film_update_wtf.data = data_film["type"]
+            form_update_film.duree_film_update_wtf.data = data_film["DN"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" duree film  ", data_film["duree_film"], "  type ", type(data_film["duree_film"]))
-            form_update_film.description_film_update_wtf.data = data_film["description_film"]
-            form_update_film.cover_link_film_update_wtf.data = data_film["cover_link_film"]
-            form_update_film.datesortie_film_update_wtf.data = data_film["date_sortie_film"]
+            print(f" duree film  ", data_film["type"], "  type ", type(data_film["DN"]))
+            form_update_film.nom_film_update_wtf.data = data_film["type"]
+            # form_update_film.cover_link_film_update_wtf.data = data_film["cover_link_film"]
+            # form_update_film.datesortie_film_update_wtf.data = data_film["date_sortie_film"]
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "

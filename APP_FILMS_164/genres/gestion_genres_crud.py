@@ -265,12 +265,12 @@ def personnes_delete():
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
                 str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)s"""
-                str_sql_delete_telephones = """DELETE FROM t_telephones WHERE fk_telephones = %(value_id_genre)s"""
+                str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)ss"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_personnes, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_telephones, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_personnes, valeur_delete_dictionnaire)
 
                 flash(f"Genre définitivement effacé !!", "success")
                 print(f"Genre définitivement effacé !!")
@@ -283,10 +283,8 @@ def personnes_delete():
             print(id_genre_delete, type(id_genre_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction, id_mails, nom_mail, id_telephones,numero_telephone  FROM t_personnes 
-                                            INNER JOIN t_mails ON t_personnes.fk_mails = t_mails.id_mails
-                                            INNER JOIN t_telephones ON t_personnes.fk_telephones = t_telephones.id_telephones
-                                            WHERE fk_telephones = %(value_id_genre)s"""
+            str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction FROM t_personnes 
+"""
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_personnes_delete, valeur_select_dictionnaire)
@@ -298,17 +296,23 @@ def personnes_delete():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_id_telephones = "SELECT id_telephones, numero_telephone FROM t_telephones WHERE id_telephones = %(value_id_genre)s"
+                str_sql_id_telephones = "SELECT id_personnes, nom,prenom,fonction FROM t_personnes WHERE id_personnes = %(value_id_genre)s"
 
                 mydb_conn.execute(str_sql_id_telephones, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
                 data_nom_genre = mydb_conn.fetchone()
                 print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                      data_nom_genre["intitule_genre"])
+                      data_nom_genre["nom"])
+                print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
+                      data_nom_genre["prenom"])
+                print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
+                      data_nom_genre["fonction"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "personnes_delete.html"
-            form_delete.nom_personnes_delete.data = data_nom_genre["intitule_genre"]
+            form_delete.nom_personnes_delete.data = data_nom_genre["nom"]
+            form_delete.nom_personnes_delete.data = data_nom_genre["prenom"]
+            form_delete.nom_personnes_delete.data = data_nom_genre["fonction"]
 
             # Le bouton pour l'action "DELETE" dans le form. "personnes_delete.html" est caché.
             btn_submit_del = False
