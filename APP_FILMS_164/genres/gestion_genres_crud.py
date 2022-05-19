@@ -169,7 +169,7 @@ def personnes_update():
             name_genre_update = form_update.nom_personnes_update.data
             name_genre_update = name_genre_update.lower()
 
-            prenom_personnes_update = form_update.nom_personnes_update.data
+            prenom_personnes_update = form_update.prenom_personnes_update.data
             prenom_personnes_update = prenom_personnes_update.lower()
 
             fonction_personnes_update = form_update.fonction_personnes_update.data
@@ -265,12 +265,12 @@ def personnes_delete():
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
                 str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)s"""
-                str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)ss"""
+                str_sql_delete_compteur = """DELETE FROM t_compteur WHERE fk_compteur = %(value_id_genre)s"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_personnes, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_personnes, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_compteur, valeur_delete_dictionnaire)
 
                 flash(f"Genre définitivement effacé !!", "success")
                 print(f"Genre définitivement effacé !!")
@@ -283,7 +283,10 @@ def personnes_delete():
             print(id_genre_delete, type(id_genre_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction FROM t_personnes 
+            str_sql_personnes_delete = """SELECT id_personnes_avoir_compteur , type, id_compteur, nom, prenom, fonction FROM t_personnes_avoir_compteur 
+                                            INNER JOIN t_compteur ON t_personnes_avoir_compteur.fk_compteur = t_compteur.id_compteur
+                                            INNER JOIN t_personnes ON t_personnes_avoir_compteur.fk_personnes = t_personnes.id_personnes
+                                            WHERE fk_personnes = %(value_id_genre)s
 """
 
             with DBconnection() as mydb_conn:

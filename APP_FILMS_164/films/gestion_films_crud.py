@@ -100,7 +100,7 @@ def film_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_type_compteur = """UPDATE t_compteur SET type = %(value_nom_film)s,
+            str_sql_update_type_compteur = """UPDATE t_compteur SET type = %(value_nom_film)s
                                                             WHERE id_compteur = %(value_id_film)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_type_compteur, valeur_update_dictionnaire)
