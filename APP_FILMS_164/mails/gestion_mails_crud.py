@@ -155,7 +155,7 @@ def mails_update():
     id_mails_update = request.values['id_genre_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
-    form_update = FormWTFUpdateGenre()
+    form_update = FormWTFUpdateMails()
     try:
         print(" on submit ", form_update.validate_on_submit())
         if form_update.validate_on_submit():
@@ -194,7 +194,7 @@ def mails_update():
                   data_nom_mail["nom_mail"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "personnes_update.html"
-            form_update.nom_mail_update.data = data_nom_mail["nom_mail"]
+            form_update.nom_mails_update.data = data_nom_mail["nom_mail"]
 
 
 
@@ -252,7 +252,7 @@ def mails_delete():
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
                 str_sql_delete_mails = """DELETE FROM t_mails WHERE fk_mails = %(value_id_mails)s"""
-                str_sql_delete_mails = """DELETE FROM t_mails WHERE fk_mails = %(value_id_mails)s"""
+               # str_sql_delete_mails = """DELETE FROM t_mails WHERE fk_mails = %(value_id_mails)s"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
                 with DBconnection() as mconn_bd:
