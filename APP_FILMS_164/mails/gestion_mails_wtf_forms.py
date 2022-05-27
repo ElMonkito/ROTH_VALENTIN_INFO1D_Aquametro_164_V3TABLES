@@ -29,7 +29,7 @@ class FormWTFAjouterMails(FlaskForm):
     submit = SubmitField("Enregistrer")
 
 
-class FormWTFUpdateGenre(FlaskForm):
+class FormWTFUpdateMails(FlaskForm):
     """
         Dans le formulaire "personnes_update.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
@@ -51,7 +51,7 @@ class FormWTFUpdateGenre(FlaskForm):
     submit = SubmitField("Update genre")
 
 
-class FormWTFDeleteGenre(FlaskForm):
+class FormWTFDeleteMails(FlaskForm):
     """
         Dans le formulaire "personnes_delete.html"
 

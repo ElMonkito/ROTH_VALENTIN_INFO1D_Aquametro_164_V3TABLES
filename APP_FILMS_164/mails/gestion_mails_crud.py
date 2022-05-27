@@ -12,9 +12,9 @@ from flask import url_for
 from APP_FILMS_164 import app
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFAjouterGenres
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFDeleteGenre
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFUpdateGenre
+# from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFAjouterMails
+from APP_FILMS_164.mails.gestion_mails_wtf_forms import FormWTFDeleteMails
+from APP_FILMS_164.mails.gestion_mails_wtf_forms import   FormWTFUpdateMails
 from APP_FILMS_164.mails.gestion_mails_wtf_forms import FormWTFAjouterMails
 
 """
@@ -228,7 +228,7 @@ def mails_delete():
     id_mails_delete = request.values['id_genre_btn_delete_html']
 
     # Objet formulaire pour effacer le genre sélectionné.
-    form_delete = FormWTFDeleteGenre()
+    form_delete = FormWTFDeleteMails()
     try:
         print(" on submit ", form_delete.validate_on_submit())
         if request.method == "POST" and form_delete.validate_on_submit():
@@ -270,10 +270,11 @@ def mails_delete():
             print(id_mails_delete, type(id_mails_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_mails_delete = """SELECT id_mails, nom_mail FROM t_mails
-                                            """
+            str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)s"""
+            str_sql_mails_delete = """SELECT id_mails, nom_mail FROM t_mails"""
 
             with DBconnection() as mydb_conn:
+                mydb_conn.execute(str_sql_delete_personnes, valeur_select_dictionnaire)
                 mydb_conn.execute(str_sql_mails_delete, valeur_select_dictionnaire)
                 data_films_attribue_genre_delete = mydb_conn.fetchall()
                 print("data_films_attribue_genre_delete...", data_films_attribue_genre_delete)
@@ -283,9 +284,12 @@ def mails_delete():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_id_mails = "SELECT id_mails, nom_mail FROM t_mails WHERE id_mails = %(value_id_mails)s"
+                str_sql_mails_delete = """SELECT id_personnes_avoir_mails , nom_mail, id_mails, nom, prenom, fonction FROM t_personnes_avoir_mails 
+                                                            INNER JOIN t_mails ON t_personnes_avoir_mails.fk_mails = t_mails.id_mails
+                                                            INNER JOIN t_personnes ON t_personnes_avoir_mails.fk_personnes = t_personnes.id_personnes
+                                                            WHERE fk_personnes = %(value_id_genre)s"""
 
-                mydb_conn.execute(str_sql_id_mails, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_mails_delete, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
                 data_nom_mail= mydb_conn.fetchone()
