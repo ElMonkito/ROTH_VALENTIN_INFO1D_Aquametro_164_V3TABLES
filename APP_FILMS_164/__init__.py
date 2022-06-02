@@ -56,8 +56,9 @@ try:
     from APP_FILMS_164.telephone import gestion_telephones_crud
     from APP_FILMS_164.telephone import gestion_telephones_wtf_forms
 
-    from APP_FILMS_164.central_lecture import gestion_central_lectures_crud
-    from APP_FILMS_164.central_lecture import gestion_central_lectures_wtf_forms
+    from APP_FILMS_164.localisation import gestion_localisation_crud
+    from APP_FILMS_164.localisation import gestion_localisation_wtf_forms
+
 
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"

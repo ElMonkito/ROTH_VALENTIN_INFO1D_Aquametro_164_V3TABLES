@@ -270,8 +270,8 @@ def mails_delete():
             print(id_mails_delete, type(id_mails_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_delete_personnes = """DELETE FROM t_personnes WHERE fk_personnes = %(value_id_genre)s"""
-            str_sql_mails_delete = """SELECT id_mails, nom_mail FROM t_mails"""
+            str_sql_delete_personnes = """DELETE FROM t_mails WHERE id_mails = %(value_id_mails)s"""
+            str_sql_mails_delete = """SELECT t_personnes_avoir_mails FROM fk_mails"""
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_delete_personnes, valeur_select_dictionnaire)
@@ -284,10 +284,10 @@ def mails_delete():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_mails_delete = """SELECT id_personnes_avoir_mails , nom_mail, id_mails, nom, prenom, fonction FROM t_personnes_avoir_mails 
-                                                            INNER JOIN t_mails ON t_personnes_avoir_mails.fk_mails = t_mails.id_mails
-                                                            INNER JOIN t_personnes ON t_personnes_avoir_mails.fk_personnes = t_personnes.id_personnes
-                                                            WHERE fk_personnes = %(value_id_genre)s"""
+                str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction, id_mails,nom_mail  FROM t_personnes_avoir_mails 
+                                                 INNER JOIN t_personnes ON t_personnes_avoir_telephones.fk_personnes = t_personnes.id_personnes
+                                                 INNER JOIN t_mails ON t_personnes_avoir_mails.fk_mails = t_mails.id_mails
+                                                 WHERE fk_mails = %(value_id_mails)s"""
 
                 mydb_conn.execute(str_sql_mails_delete, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
