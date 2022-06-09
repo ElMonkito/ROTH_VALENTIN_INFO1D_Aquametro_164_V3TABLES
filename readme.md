@@ -32,10 +32,10 @@ Le "début de la fin"
 
 
 
-## Situation 1 : Vous n'avez encore rien modifié depuis le 14.04 2022
+## Situation 1 : 
   * Cloner ma dernière version (lien ci-dessous)
   * Ouvrir "PyCharm". Cliquer sur le bouton à droite "GET FROM VCS"
-      * Une fenêtre s'ouvre, copier le lien suivant dans le champ url : https://github.com/info164/164_OM_PYTHON_MYSQL_FLASK_EX_2_V1.git
+      * Une fenêtre s'ouvre, copier le lien suivant dans le champ url : https://github.com/ElMonkito/ROTH_VALENTIN_INFO1D_Aquametro_164_V3TABLES.git
       * Il est indispensable de créer un répertoire vide pour accueillir MON projet de référence. Cliquer sur l'icône répertoire
       * Cliquer sur le bouton "CLONE"
       * Une fenêtre de sécurité "Trust and open project"... cliquer sur "Trust"
@@ -52,8 +52,8 @@ Le "début de la fin"
   * Quand "MA" démonstration fonctionne, alors il faut passer à "Vos devoirs"
 
 
-## Situation 2 : Vous avez déjà commencé à remplacer mes requêtes par les vôtres depuis le 14.04 2022
-  * Cloner (comme en situation 1) ma dernière version : https://github.com/info164/164_OM_PYTHON_MYSQL_FLASK_EX_2_V1.git
+## Situation 2 : Commencer a remplacer les requetes
+  * Cloner (comme en situation 1) ma dernière version : https://github.com/ElMonkito/ROTH_VALENTIN_INFO1D_Aquametro_164_V3TABLES.git
   * En faire une copie (voir plus haut)
   * Ouvrir votre projet que vous avez déjà commencé à modifier
   * Dans "PyCharm", cliquer avec le bouton droit de la souris sur le nom de la racine de votre projet et choisir "Compare With..." (CTRL-D", vous devez importer tout ce qui a changé dans la nouvelle version que je vous propose, mais ne pas écraser ce que vous avez déjà fait.
@@ -98,18 +98,6 @@ Le "début de la fin"
 * Il vous sera demandé de vous connecter au travers de "JetBrains, PyCharm", acceptez et remplir avec votre mot de passe de votre github
 * Vous pouvez cliquer sur le bouton "Push"
 * Faites de nombreux "Commit"/"Push", c'est la garantie de ne rien perdre et que j'analyse votre avance sur votre projet
-# Vos devoirs :
-* Placer votre "DUMP" à la place de celui de ma "BD" films. Votre "DUMP" doit se nommer "VOTRENOM_VOTREPRENOM_VOTRECLASSE_VOTRESUJET_164.SQL"
-  * Dans le répertoire "database" vous devez placer vos fichiers (PDF: Cahier des charges, MCD, MLD, dictionnaires des données et SQL : requêtes, etc)
-  * Ouvrir le fichier "database/1_ImportationDumpSql.py"
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
-    * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la
-      bd.
-* Test simple de la connexion à la BD
-    * Ouvrir le fichier "database/2_test_connection_bd.py"
-	* Modifier "MA" requête par votre requête
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)	  
-	  
 
 # Pour "rafraîchir" les versions des packages (Terminal de "PyCharm") 
 
