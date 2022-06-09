@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %} Ajouter une localisation (WTF) {% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<p>
+				Ajouter une nouvelle localisation
+			</p>
+			<form action="" method="POST" novalidate>
+				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+				{{ form.hidden_tag() }}
+				<div class="form-group">
+					<p>
+						{{ form.adresse_wtf.label }}<br>
+						{{ form.adresse_wtf(size=32) }}<br>
+						{% for error in form.adresse_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+                	<p>
+						{{ form.numero_wtf.label }}<br>
+						{{ form.numero_wtf(size=32) }}<br>
+						{% for error in form.numero_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+                     <p>
+						{{ form.NPA_wtf.label }}<br>
+						{{ form.NPA_wtf(size=32) }}<br>
+						{% for error in form.NPA_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+                    <p>
+						{{ form.ville_wtf.label }}<br>
+						{{ form.ville_wtf(size=32) }}<br>
+						{% for error in form.ville_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+				</div>
+				{{ form.submit(class="btn btn-primary") }}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
