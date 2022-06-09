@@ -251,12 +251,12 @@ def mails_delete():
                 valeur_delete_dictionnaire = {"value_id_mails": id_mails_delete}
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-                str_sql_delete_mails = """DELETE FROM t_mails WHERE fk_mails = %(value_id_mails)s"""
-               # str_sql_delete_mails = """DELETE FROM t_mails WHERE fk_mails = %(value_id_mails)s"""
+                str_sql_delete_personnes = """DELETE FROM t_mails WHERE id_mails = %(value_id_mails)s"""
+                str_sql_delete_mails = """DELETE FROM t_personnes_avoir_mails WHERE fk_mails = %(value_id_mails)s"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(str_sql_delete_mails, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_personnes, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_mails, valeur_delete_dictionnaire)
 
                 flash(f"Genre définitivement effacé !!", "success")
@@ -270,12 +270,13 @@ def mails_delete():
             print(id_mails_delete, type(id_mails_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_delete_personnes = """DELETE FROM t_mails WHERE id_mails = %(value_id_mails)s"""
-            str_sql_mails_delete = """SELECT t_personnes_avoir_mails FROM fk_mails"""
+            str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction, id_mails,nom_mail  FROM t_personnes_avoir_mails 
+                                            INNER JOIN t_personnes ON t_personnes_avoir_mails.fk_personnes = t_personnes.id_personnes
+                                            INNER JOIN t_mails ON t_personnes_avoir_mails.fk_mails = t_mails.id_mails
+                                            WHERE fk_mails = %(value_id_mails)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_delete_personnes, valeur_select_dictionnaire)
-                mydb_conn.execute(str_sql_mails_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_personnes_delete, valeur_select_dictionnaire)
                 data_films_attribue_genre_delete = mydb_conn.fetchall()
                 print("data_films_attribue_genre_delete...", data_films_attribue_genre_delete)
 
@@ -284,15 +285,12 @@ def mails_delete():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_personnes_delete = """SELECT id_personnes, nom, prenom, fonction, id_mails,nom_mail  FROM t_personnes_avoir_mails 
-                                                 INNER JOIN t_personnes ON t_personnes_avoir_telephones.fk_personnes = t_personnes.id_personnes
-                                                 INNER JOIN t_mails ON t_personnes_avoir_mails.fk_mails = t_mails.id_mails
-                                                 WHERE fk_mails = %(value_id_mails)s"""
+                str_sql_id_mails= "SELECT id_mails, nom_mail FROM t_mails WHERE id_mails = %(value_id_mails)s"
 
-                mydb_conn.execute(str_sql_mails_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_id_mails, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
-                data_nom_mail= mydb_conn.fetchone()
+                data_nom_mail = mydb_conn.fetchone()
                 print("data_nom_mail ", data_nom_mail, " type ", type(data_nom_mail), " genre ",
                       data_nom_mail["nom_mail"])
 

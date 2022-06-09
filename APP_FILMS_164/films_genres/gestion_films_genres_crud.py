@@ -147,7 +147,7 @@ def edit_genre_film_selected():
 
             # Extrait les valeurs contenues dans la table "t_genres", colonne "intitule_genre"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_genre
-            lst_data_genres_films_non_attribues = [item['intitule_genre'] for item in data_genres_films_non_attribues]
+            lst_data_genres_films_non_attribues = [item['nom'] for item in data_genres_films_non_attribues]
             print("lst_all_genres gf_edit_genre_film_selected ", lst_data_genres_films_non_attribues,
                   type(lst_data_genres_films_non_attribues))
 

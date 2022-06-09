@@ -17,7 +17,7 @@ USE roth_valentin_info1d_aquametro_bd_164;
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 16 Mai 2022 à 17:44
+-- Généré le :  Mer 08 Juin 2022 à 07:04
 -- Version du serveur :  5.6.20-log
 -- Version de PHP :  5.4.31
 
@@ -37,129 +37,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_calculateur`
---
-
-CREATE TABLE IF NOT EXISTS `t_calculateur` (
-  `id_calculateur` int(11) NOT NULL,
-  `type` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_calculateur`
---
-
-INSERT INTO `t_calculateur` (`id_calculateur`, `type`) VALUES
-(1, 'CALEC® ST III Standard & Smart'),
-(2, 'CALEC® ST II');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_calculateur_avoir_emplacement`
---
-
-CREATE TABLE IF NOT EXISTS `t_calculateur_avoir_emplacement` (
-  `id_calculateur_avoir_emplacement` int(11) NOT NULL,
-  `fk_calculateur` int(11) DEFAULT NULL,
-  `fk_emplacement` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_calculateur_avoir_emplacement`
---
-
-INSERT INTO `t_calculateur_avoir_emplacement` (`id_calculateur_avoir_emplacement`, `fk_calculateur`, `fk_emplacement`) VALUES
-(1, 1, 2),
-(2, 2, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_calculateur_avoir_mise_en_service`
---
-
-CREATE TABLE IF NOT EXISTS `t_calculateur_avoir_mise_en_service` (
-  `id_calculateur_avoir_mise_en_service` int(11) NOT NULL,
-  `fk_calculateur` int(11) DEFAULT NULL,
-  `fk_mise_en_service` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_calculateur_avoir_mise_en_service`
---
-
-INSERT INTO `t_calculateur_avoir_mise_en_service` (`id_calculateur_avoir_mise_en_service`, `fk_calculateur`, `fk_mise_en_service`) VALUES
-(1, 2, 5),
-(2, 1, 6);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_central_lecture`
---
-
-CREATE TABLE IF NOT EXISTS `t_central_lecture` (
-  `id_central_lecture` int(11) NOT NULL,
-  `type` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_central_lecture`
---
-
-INSERT INTO `t_central_lecture` (`id_central_lecture`, `type`) VALUES
-(1, 'aquaradio® smart RDC Standard');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_central_lecture_avoir_emplacement`
---
-
-CREATE TABLE IF NOT EXISTS `t_central_lecture_avoir_emplacement` (
-  `id_central_lecture_avoir_emplacement` int(11) NOT NULL,
-  `fk_central_lecture` int(11) DEFAULT NULL,
-  `fk_emplacement` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_central_lecture_avoir_emplacement`
---
-
-INSERT INTO `t_central_lecture_avoir_emplacement` (`id_central_lecture_avoir_emplacement`, `fk_central_lecture`, `fk_emplacement`) VALUES
-(1, 1, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_central_lecture_avoir_mise_en_service`
---
-
-CREATE TABLE IF NOT EXISTS `t_central_lecture_avoir_mise_en_service` (
-  `id_central_lecture_avoir_mise_en_service` int(11) NOT NULL,
-  `fk_central_lecture` int(11) DEFAULT NULL,
-  `fk_mise_en_service` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_central_lecture_avoir_mise_en_service`
---
-
-INSERT INTO `t_central_lecture_avoir_mise_en_service` (`id_central_lecture_avoir_mise_en_service`, `fk_central_lecture`, `fk_mise_en_service`) VALUES
-(1, 1, 4);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `t_compteur`
 --
 
 CREATE TABLE IF NOT EXISTS `t_compteur` (
-  `id_compteur` int(11) NOT NULL,
+`id_compteur` int(11) NOT NULL,
   `type` varchar(50) DEFAULT NULL,
   `DN` int(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=4 ;
 
 --
 -- Contenu de la table `t_compteur`
@@ -173,82 +58,16 @@ INSERT INTO `t_compteur` (`id_compteur`, `type`, `DN`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_compteur_avoir_emplacement`
---
-
-CREATE TABLE IF NOT EXISTS `t_compteur_avoir_emplacement` (
-  `id_compteur_avoir_emplacement` int(11) NOT NULL,
-  `fk_compteur` int(11) DEFAULT NULL,
-  `fk_emplacement` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_compteur_avoir_emplacement`
---
-
-INSERT INTO `t_compteur_avoir_emplacement` (`id_compteur_avoir_emplacement`, `fk_compteur`, `fk_emplacement`) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(4, 4, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_compteur_avoir_mise_en_service`
---
-
-CREATE TABLE IF NOT EXISTS `t_compteur_avoir_mise_en_service` (
-  `id_compteur_avoir_mise_en_service` int(11) NOT NULL,
-  `fk_compteur` int(11) DEFAULT NULL,
-  `fk_mise_en_service` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_compteur_avoir_mise_en_service`
---
-
-INSERT INTO `t_compteur_avoir_mise_en_service` (`id_compteur_avoir_mise_en_service`, `fk_compteur`, `fk_mise_en_service`) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_emplacement`
---
-
-CREATE TABLE IF NOT EXISTS `t_emplacement` (
-  `id_emplacement` int(11) NOT NULL,
-  `adresse` varchar(50) DEFAULT NULL,
-  `numero` int(3) DEFAULT NULL,
-  `appartement` int(3) DEFAULT NULL,
-  `NPA` int(4) DEFAULT NULL,
-  `ville` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_emplacement`
---
-
-INSERT INTO `t_emplacement` (`id_emplacement`, `adresse`, `numero`, `appartement`, `NPA`, `ville`) VALUES
-(1, 'Av. Claude-Nobs ', 2, 8, 1820, 'Montreux'),
-(2, 'Pl. du Marché ', 6, 36, 1820, 'Montreux'),
-(3, 'Rte du Vernay ', 34, 17, 1870, 'Monthey');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `t_localisations`
 --
 
 CREATE TABLE IF NOT EXISTS `t_localisations` (
-  `id_localisations` int(11) NOT NULL,
+`id_localisations` int(11) NOT NULL,
   `adresse` varchar(50) DEFAULT NULL,
   `numero` int(3) DEFAULT NULL,
   `NPA` int(4) DEFAULT NULL,
   `ville` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `t_localisations`
@@ -284,29 +103,6 @@ INSERT INTO `t_mails` (`id_mails`, `nom_mail`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_mise_en_service`
---
-
-CREATE TABLE IF NOT EXISTS `t_mise_en_service` (
-  `id_mise_en_service` int(11) NOT NULL,
-  `date_mise_en_service` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_mise_en_service`
---
-
-INSERT INTO `t_mise_en_service` (`id_mise_en_service`, `date_mise_en_service`) VALUES
-(1, '2014-07-16'),
-(2, '2018-01-18'),
-(3, '2009-05-11'),
-(4, '2021-01-29'),
-(5, '2016-10-04'),
-(6, '2010-07-27');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `t_personnes`
 --
 
@@ -327,48 +123,6 @@ INSERT INTO `t_personnes` (`id_personnes`, `nom`, `prenom`, `fonction`) VALUES
 (3, 'Berger', 'Jean', 'Client'),
 (4, 'Dupont ', 'Remy', 'Directeur'),
 (5, 'Roth', 'Valentin', 'Vendeur');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_personnes_avoir_calculateur`
---
-
-CREATE TABLE IF NOT EXISTS `t_personnes_avoir_calculateur` (
-  `id_personnes-avoir_calculateur` int(11) NOT NULL,
-  `fk_personnes` int(11) DEFAULT NULL,
-  `fk_calculateur` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_personnes_avoir_calculateur`
---
-
-INSERT INTO `t_personnes_avoir_calculateur` (`id_personnes-avoir_calculateur`, `fk_personnes`, `fk_calculateur`) VALUES
-(1, 1, 2),
-(2, 2, 1),
-(3, 3, 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `t_personnes_avoir_central_lecture`
---
-
-CREATE TABLE IF NOT EXISTS `t_personnes_avoir_central_lecture` (
-  `id_personnes_avoir_central_lecture` int(11) NOT NULL,
-  `fk_personnes` int(11) DEFAULT NULL,
-  `fk_central_lecture` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Contenu de la table `t_personnes_avoir_central_lecture`
---
-
-INSERT INTO `t_personnes_avoir_central_lecture` (`id_personnes_avoir_central_lecture`, `fk_personnes`, `fk_central_lecture`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -485,64 +239,10 @@ INSERT INTO `t_telephones` (`id_telephones`, `numero_telephone`) VALUES
 --
 
 --
--- Index pour la table `t_calculateur`
---
-ALTER TABLE `t_calculateur`
- ADD PRIMARY KEY (`id_calculateur`);
-
---
--- Index pour la table `t_calculateur_avoir_emplacement`
---
-ALTER TABLE `t_calculateur_avoir_emplacement`
- ADD PRIMARY KEY (`id_calculateur_avoir_emplacement`), ADD KEY `fk_calculateur` (`fk_calculateur`), ADD KEY `fk_emplacement` (`fk_emplacement`);
-
---
--- Index pour la table `t_calculateur_avoir_mise_en_service`
---
-ALTER TABLE `t_calculateur_avoir_mise_en_service`
- ADD PRIMARY KEY (`id_calculateur_avoir_mise_en_service`), ADD KEY `fk_calculateur` (`fk_calculateur`), ADD KEY `fk_mise_en_service` (`fk_mise_en_service`);
-
---
--- Index pour la table `t_central_lecture`
---
-ALTER TABLE `t_central_lecture`
- ADD PRIMARY KEY (`id_central_lecture`);
-
---
--- Index pour la table `t_central_lecture_avoir_emplacement`
---
-ALTER TABLE `t_central_lecture_avoir_emplacement`
- ADD PRIMARY KEY (`id_central_lecture_avoir_emplacement`), ADD KEY `fk_central_lecture` (`fk_central_lecture`), ADD KEY `fk_emplacement` (`fk_emplacement`);
-
---
--- Index pour la table `t_central_lecture_avoir_mise_en_service`
---
-ALTER TABLE `t_central_lecture_avoir_mise_en_service`
- ADD PRIMARY KEY (`id_central_lecture_avoir_mise_en_service`), ADD KEY `fk_central_lecture` (`fk_central_lecture`), ADD KEY `fk_mise_en_service` (`fk_mise_en_service`);
-
---
 -- Index pour la table `t_compteur`
 --
 ALTER TABLE `t_compteur`
  ADD PRIMARY KEY (`id_compteur`);
-
---
--- Index pour la table `t_compteur_avoir_emplacement`
---
-ALTER TABLE `t_compteur_avoir_emplacement`
- ADD PRIMARY KEY (`id_compteur_avoir_emplacement`), ADD KEY `fk_compteur` (`fk_compteur`), ADD KEY `fk_emplacement` (`fk_emplacement`);
-
---
--- Index pour la table `t_compteur_avoir_mise_en_service`
---
-ALTER TABLE `t_compteur_avoir_mise_en_service`
- ADD PRIMARY KEY (`id_compteur_avoir_mise_en_service`), ADD KEY `fk_compteur` (`fk_compteur`), ADD KEY `fk_mise_en_service` (`fk_mise_en_service`);
-
---
--- Index pour la table `t_emplacement`
---
-ALTER TABLE `t_emplacement`
- ADD PRIMARY KEY (`id_emplacement`);
 
 --
 -- Index pour la table `t_localisations`
@@ -557,28 +257,10 @@ ALTER TABLE `t_mails`
  ADD PRIMARY KEY (`id_mails`);
 
 --
--- Index pour la table `t_mise_en_service`
---
-ALTER TABLE `t_mise_en_service`
- ADD PRIMARY KEY (`id_mise_en_service`);
-
---
 -- Index pour la table `t_personnes`
 --
 ALTER TABLE `t_personnes`
  ADD PRIMARY KEY (`id_personnes`);
-
---
--- Index pour la table `t_personnes_avoir_calculateur`
---
-ALTER TABLE `t_personnes_avoir_calculateur`
- ADD PRIMARY KEY (`id_personnes-avoir_calculateur`), ADD KEY `fk_personnes` (`fk_personnes`), ADD KEY `fk_calculateur` (`fk_calculateur`);
-
---
--- Index pour la table `t_personnes_avoir_central_lecture`
---
-ALTER TABLE `t_personnes_avoir_central_lecture`
- ADD PRIMARY KEY (`id_personnes_avoir_central_lecture`), ADD KEY `fk_personnes` (`fk_personnes`), ADD KEY `fk_central_lecture` (`fk_central_lecture`);
 
 --
 -- Index pour la table `t_telephones`
@@ -590,6 +272,16 @@ ALTER TABLE `t_telephones`
 -- AUTO_INCREMENT pour les tables exportées
 --
 
+--
+-- AUTO_INCREMENT pour la table `t_compteur`
+--
+ALTER TABLE `t_compteur`
+MODIFY `id_compteur` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `t_localisations`
+--
+ALTER TABLE `t_localisations`
+MODIFY `id_localisations` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `t_mails`
 --
@@ -608,3 +300,6 @@ MODIFY `id_telephones` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
