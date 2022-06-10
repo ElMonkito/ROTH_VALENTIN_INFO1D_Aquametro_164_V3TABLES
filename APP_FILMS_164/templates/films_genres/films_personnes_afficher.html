@@ -39,7 +39,7 @@
 							<a class="btn btn-warning" href="{{ url_for('edit_genre_film_selected', id_film_genres_edit_html=row.id_compteur) }}" role="button">Modifier</a>
 						</td>
 						<td class="align-middle" colspan="5">
-							{{ row.GenresFilms|default("LIBRE", True) }}
+							{{ row.PersonneCompteur|default("LIBRE", True) }}
 						</td>
 					</tr>
 				</tr>
